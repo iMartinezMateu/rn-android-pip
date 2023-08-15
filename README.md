@@ -42,32 +42,23 @@ react-native link react-native-android-pip
 For android sdk version 23 and below, this method call will be ignored as PIP support is not available
 
 ```javascript
-import AndroidPip from "react-native-android-pip";
+import {
+  enterPictureInPictureMode,
+  configurePIPAspectRatio,
+  enableAutoPipSwitch,
+  disableAutoPipSwitch,
+} from "react-native-android-pip";
 
 // Enter Pip mode
-AndroidPip.enterPictureInPictureMode();
+enterPictureInPictureMode();
 
 //Configure aspect ratio, works only on SDK version 26 and above
-AndroidPip.configureAspectRatio(width, height); // Example: AndroidPip.configureAspectRatio(2, 4)
+configurePIPAspectRatio(width, height); // Example: configurePIPAspectRatio(2, 4)
 
 // When enabled, PIP mode will be automatically entered when app is unfocused( User presses home, menu button etc)
-AndroidPip.enableAutoPipSwitch();
-AndroidPip.disableAutoPipSwitch();
+enableAutoPipSwitch();
+disableAutoPipSwitch();
 
 // Listen for changes to PIP status (eg has user chosen to return to app)
-const eventListener = useRef(null);
-useEffect(() => {
-  AndroidPip.startModeChangeListener();
-  const eventEmitter = new NativeEventEmitter(AndroidPip);
-  eventListener.current = eventEmitter.addListener(
-    "onPictureInPictureModeChanged",
-    (event) => {
-      console.log("onPictureInPictureModeChanged - In PIP?", event.isInPiPMode);
-    }
-  );
-  return () => {
-    //make sure to unsubscribe when unmounting your component
-    eventListener.current.remove();
-  };
-}, []);
+const isInPIP = useRNPIP();
 ```
