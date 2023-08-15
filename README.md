@@ -61,4 +61,9 @@ disableAutoPipSwitch();
 
 // Listen for changes to PIP status (eg has user chosen to return to app)
 const isInPIP = useRNPIP();
+if (isInPIP) {
+  return <PIPView />;
+} else {
+  return <FullScreenView />;
+}
 ```
