@@ -1,21 +1,22 @@
 {
   "name": "react-native-android-pip",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/shaun-chiang/rn-android-pip"
+    "url": "https://github.com/ParasRai2/rn-android-pip.git"
   },
-  "description": "React Native Android Pip Module",
-  "main": "index.js",
+  "description": "React Native Android Pip Module\n Forked from https://github.com/shaun-chiang/rn-android-pip",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "react-native"
   ],
-  "author": "Shaun Chiang",
-  "license": "MIT",
+  "author": "Paras Rai",
+  "originalAuthor": "Shaun Chiang",
+  "license": "None",
   "peerDependencies": {
-    "react-native": "^0.41.2"
+    "react-native": "^0.68.2"
   }
 }
