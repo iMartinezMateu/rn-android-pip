@@ -30,7 +30,8 @@ import androidx.lifecycle.LifecycleEventObserver;
 
 import com.facebook.react.bridge.Promise;
 
-public class RNAndroidPipModule extends ReactContextBaseJavaModule implements LifecycleEventListener, LifecycleEventObserver {
+public class RNAndroidPipModule extends ReactContextBaseJavaModule
+        implements LifecycleEventListener, LifecycleEventObserver {
 
     private final ReactApplicationContext reactContext;
     private static final int ASPECT_WIDTH = 3;
@@ -81,6 +82,9 @@ public class RNAndroidPipModule extends ReactContextBaseJavaModule implements Li
                     } else {
                         getCurrentActivity().enterPictureInPictureMode();
                     }
+                    WritableMap args = Arguments.createMap();
+                    args.putBoolean("isInPiPMode", true);
+                    sendEvent("onPictureInPictureModeChanged", args);
                 }
             }
         }
@@ -133,6 +137,9 @@ public class RNAndroidPipModule extends ReactContextBaseJavaModule implements Li
 
     @Override
     public void onHostResume() {
+        WritableMap args = Arguments.createMap();
+        args.putBoolean("isInPiPMode", false);
+        sendEvent("onPictureInPictureModeChanged", args);
     }
 
     @Override
@@ -144,6 +151,9 @@ public class RNAndroidPipModule extends ReactContextBaseJavaModule implements Li
 
     @Override
     public void onHostDestroy() {
+        WritableMap args = Arguments.createMap();
+        args.putBoolean("isInPiPMode", false);
+        sendEvent("onPictureInPictureModeChanged", args);
     }
 
     @Override
@@ -151,15 +161,18 @@ public class RNAndroidPipModule extends ReactContextBaseJavaModule implements Li
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AppCompatActivity activity = (AppCompatActivity) source;
             boolean isInPiPMode = activity.isInPictureInPictureMode();
-            // Check for changes on pip mode.
-            if (this.isInPiPMode != isInPiPMode) {
-                this.isInPiPMode = isInPiPMode;
-                Log.d(this.getName(), "Activity pip mode has changed to " + isInPiPMode);
-                // Dispatch onPictureInPicutreModeChangedEvent to js.
-                WritableMap args = Arguments.createMap();
-                args.putBoolean("isInPiPMode", isInPiPMode);
-                sendEvent("onPictureInPictureModeChanged", args);
-            }
+            WritableMap args = Arguments.createMap();
+            args.putBoolean("isInPiPMode", isInPiPMode);
+            sendEvent("onPictureInPictureModeChanged", args);
+            // // Check for changes on pip mode.
+            // if (this.isInPiPMode != isInPiPMode) {
+            // this.isInPiPMode = isInPiPMode;
+            // Log.d(this.getName(), "Activity pip mode has changed to " + isInPiPMode);
+            // // Dispatch onPictureInPicutreModeChangedEvent to js.
+            // WritableMap args = Arguments.createMap();
+            // args.putBoolean("isInPiPMode", isInPiPMode);
+            // sendEvent("onPictureInPictureModeChanged", args);
+            // }
         }
     }
 }
