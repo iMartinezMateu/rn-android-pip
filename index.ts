@@ -1,14 +1,12 @@
-import {
-  NativeModules,
-  Platform,
-  useState,
-  NativeEventEmitter,
-  useEffect,
-} from "react-native";
+import { NativeModules, Platform, NativeEventEmitter } from "react-native";
+
+import { useState, useEffect } from "react";
 
 const { RNAndroidPip } = NativeModules;
 
-const enterPictureInPictureMode = () => {
+const warningmsg = "PIP not available on ios";
+
+export const enterPictureInPictureMode = () => {
   if (Platform.OS === "android") {
     RNAndroidPip.enterPictureInPictureMode();
   }
@@ -19,29 +17,32 @@ interface aspectRaio {
   height: number;
 }
 
-const configurePIPAspectRatio = ({ width, height }: aspectRaio): void => {
+export const configurePIPAspectRatio = ({
+  width,
+  height,
+}: aspectRaio): void => {
   if (Platform.OS === "android") {
     RNAndroidPip.configureAspectRatio(width, height);
   } else {
-    console.warn("Not implemented on ios");
+    console.warn(warningmsg);
   }
 };
 
-const enableAutoPipSwitch = (): void => {
+export const enableAutoPipSwitch = (): void => {
   if (Platform.OS === "android") {
     RNAndroidPip.enableAutoPipSwitch();
   } else {
-    console.warn("Not implemented on ios");
+    console.warn(warningmsg);
   }
 };
 
-const disableAutoPipSwitch = (): void => {
+export const disableAutoPipSwitch = (): void => {
   if (Platform.OS === "android") {
     RNAndroidPip.disableAutoPipSwitch();
   }
 };
 
-const useRNPIP = () => {
+export const useRNPIP = () => {
   const [isPIPenabled, setPIPenabled] = useState(false);
   useEffect(() => {
     if (Platform.OS === "android") {
@@ -57,16 +58,9 @@ const useRNPIP = () => {
         listener.remove();
       };
     } else {
-      console.warn("Not implemented on ios");
+      console.warn(warningmsg);
     }
+    return;
   }, []);
   return isPIPenabled;
-};
-
-export default {
-  useRNPIP,
-  enterPictureInPictureMode,
-  configurePIPAspectRatio,
-  enableAutoPipSwitch,
-  disableAutoPipSwitch,
 };
