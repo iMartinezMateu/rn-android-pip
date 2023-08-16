@@ -17,6 +17,6 @@
   "originalAuthor": "Shaun Chiang",
   "license": "None",
   "peerDependencies": {
-    "react-native": "^0.68.2"
+    "react-native": "*",
   }
 }
